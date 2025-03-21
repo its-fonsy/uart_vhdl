@@ -90,16 +90,24 @@ begin
         wait until falling_edge(clk);
 
         -- Send 8-bit data length
-        data_len <= X"8";
-        test_data := "011010100";
+        data_len <= x"8";
+        test_data := b"0_1101_0100";
         wait for 1 ps;
         uart_tx(rx, clk);
 
-        wait for clock_period;
+        wait for 2*clock_period;
 
         -- Send 9-bit data length
-        data_len <= X"9";
-        test_data := "111100100";
+        data_len <= x"9";
+        test_data := b"1_1110_0100";
+        wait for 1 ps;
+        uart_tx(rx, clk);
+
+        wait for 2*clock_period;
+
+        -- Send 5-bit data length
+        data_len <= x"5";
+        test_data := b"0_0001_1001";
         wait for 1 ps;
         uart_tx(rx, clk);
 

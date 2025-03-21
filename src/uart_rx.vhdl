@@ -35,7 +35,7 @@ begin
     data <= sfr_data;
 
     -- Shift Register
-    shift_reg: process(rstn, clk, sfr_reset, sfr_shift) is
+    shift_reg: process(rstn, clk, sfr_reset, sfr_shift, cs) is
     begin
         -- Async Reset
         if rstn = '0' then
@@ -46,6 +46,15 @@ begin
             elsif sfr_shift = '1' then
                 sfr_data <= sfr_data srl 1;
                 sfr_data(9) <= rx;
+                if cs = PARITY_BIT then
+                    case data_len is
+                        when 4D"5" => sfr_data <= sfr_data srl 4;
+                        when 4D"6" => sfr_data <= sfr_data srl 3;
+                        when 4D"7" => sfr_data <= sfr_data srl 2;
+                        when 4D"8" => sfr_data <= sfr_data srl 1;
+                        when others => sfr_data <= sfr_data;
+                    end case;
+                end if;
             end if;
         end if;
     end process shift_reg;
