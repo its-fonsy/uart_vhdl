@@ -24,7 +24,7 @@ compile: $(SRCS)
 	@$(VCOM) $(VCOM_FLAGS) $^
 
 sim: compile
-	$(VSIM) $(VSIM_FLAGS) $(LIB).fifo_tb
+	$(VSIM) $(VSIM_FLAGS) $(LIB).baud_rate_generator_tb 
 
 clean:
 	rm -f *.cr.mti *.mpf *.wlf *.vstf transcript
