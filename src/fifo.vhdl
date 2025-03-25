@@ -7,7 +7,7 @@ use ieee.math_real.log2;
 entity fifo is
     generic (
             DATA_WIDTH  : integer   := 8;
-            SIZE  : integer   := 8
+            SIZE        : integer   := 8
             );
     port (
             clk         : in    std_logic;
