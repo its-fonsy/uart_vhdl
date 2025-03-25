@@ -69,7 +69,7 @@ architecture behav of data_buffer_rx_tb is
     signal clk              : std_logic := '0';
     signal rstn             : std_logic;
 
-    -- UART TX signals
+    -- UART RX signals
     signal baud_clk         : std_logic := '0';
     signal rx_data_len      : std_logic_vector(3 downto 0);
     signal rx               : std_logic;
@@ -103,7 +103,8 @@ begin
                 full => fifo_full
                 );
 
-    tx0: uart_rx
+    -- Instantiate UART RX
+    rx0: uart_rx
         port map(
                 clk => baud_clk,
                 rstn => rstn,
@@ -113,6 +114,7 @@ begin
                 data => rx_data 
                 );
 
+    -- Instantiate DATA BUFFER
     dut: data_buffer
         generic map(
                 DATA_WIDTH => dw
