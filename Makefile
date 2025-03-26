@@ -24,7 +24,7 @@ compile: $(SRCS)
 	@$(VCOM) $(VCOM_FLAGS) $^
 
 sim: compile
-	$(VSIM) $(VSIM_FLAGS) $(LIB).data_buffer_rx_tb
+	$(VSIM) $(VSIM_FLAGS) $(LIB).uart_tb
 
 clean:
 	rm -f *.cr.mti *.mpf *.wlf *.vstf transcript
