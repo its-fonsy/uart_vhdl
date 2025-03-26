@@ -65,6 +65,10 @@ architecture behav of uart_tb is
     signal rx               : std_logic;
     signal tx               : std_logic;
 
+    -- Sync signal for testbench
+    signal test_tx_finished : boolean := false;
+    signal test_rx_finished : boolean := false;
+
 begin
 
     dut: uart
@@ -236,9 +240,30 @@ begin
         end loop;
 
         wait for 10 * clock_period;
-        report "Test finished";
-        finish;
 
+        report "Finished testing UART TX";
+        test_tx_finished <= true;
+        wait;
+
+    end process;
+
+    test_uart_receiving: process is
+    begin
+        -- Wait for transmission test to finish
+        wait until test_tx_finished;
+
+        wait for clock_period;
+
+        report "Finished testing UART RX";
+        test_rx_finished <= true;
+        wait;
+    end process;
+
+    main_stimuli: process is
+    begin
+        wait until test_rx_finished;
+        report "All test finished";
+        finish;
     end process;
 
 end behav;
